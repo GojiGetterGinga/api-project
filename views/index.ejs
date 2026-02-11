@@ -3,112 +3,10 @@
 
 <head>
   <title>Form Example</title>
-  <!-- TODO: use styles.css -->
-  <!-- <style>
-    /* CSS styles */
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-      margin: 0;
-      padding: 0;
-    }
-
-    .container {
-      max-width: 600px;
-      margin: 50px auto;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    /* h1 {
-      text-align: center;
-    } */
-
-    form {
-      margin-top: 20px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
-
-    input[type="text"],
-    input[type="number"] {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-      margin-bottom: 10px;
-    }
-
-    input[type="submit"] {
-      color: #fff;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-
-    .response-area {
-      margin-top: 20px;
-      background-color: #f0f0f0;
-
-      padding: 20px 5px;
-    }
-
-    #get {
-      background-color: #2ecc71;
-    }
-
-    #get:hover {
-      background-color: #27ae60;
-    }
-
-    #post {
-      background-color: #3498db;
-    }
-
-    #post:hover {
-      background-color: #2980b9;
-    }
-
-    #put {
-      background-color: #9b59b6;
-    }
-
-    #put:hover {
-      background-color: #8e44ad;
-    }
-
-    #patch {
-      background-color: #f1c40f;
-    }
-
-    #patch:hover {
-      background-color: #f39c12;
-    }
-
-    #delete {
-      background-color: #e74c3c;
-    }
-
-    #delete:hover {
-      background-color: #c0392b;
-    }
-  </style> -->
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Markazi+Text:wght@400..700&display=swap" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="styles/main.css">
-  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Markazi+Text:wght@400..700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="styles/main.css">
 </head>
 
 <body>
@@ -118,30 +16,43 @@
             </div>
     <%}%>
 
-  <div class="container">
   <h1>Home Page</h1>
+  <div class = "homeContainer">
+    <div class="homeDetails">
+      <section class="accordion">
+        <div class="tab">
+          <input type="checkbox" name="accordion-1" id="cb1" checked>
+          <label for="cb1" class="tab__label">Checkbox</label>
+          <div class="tab__content">
+            <p>
+              Lorem ipsum dolor sit amet, et proin, justo mus. Porta suspendisse turpis netus sagittis tortor at, vitae aliquet
+              pharetra cras velit, id gravida, neque nulla lorem, posuere hac. Ultricies eget lacus vehicula, in ante aliquam
+              et,facilisis tempor duis orci. Sed molestie sem in duis eu id, nisl id ultricies metus blandit eget praesent, pede
+              tempornullam, vitae arcu tortor suspendisse nibh risus. Nulla id suscipit reiciendis nulla erat. Porta enim aute
+              luctus,ducimus sodales dolor.
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
 
-  <p>Lorem ipsum dolor sit amet, et proin, justo mus. Porta suspendisse turpis netus sagittis tortor at, vitae aliquet
-    pharetra cras velit, id gravida, neque nulla lorem, posuere hac. Ultricies eget lacus vehicula, in ante aliquam
-    et,facilisis tempor duis orci. Sed molestie sem in duis eu id, nisl id ultricies metus blandit eget praesent, pede
-    tempornullam, vitae arcu tortor suspendisse nibh risus. Nulla id suscipit reiciendis nulla erat. Porta enim aute
-    luctus,ducimus sodales dolor.
-  </p>
-  <p>
-    Quam purus justo enim purus, dolor enim, ut eu lectus nam eget nibh. Ante illum nullam leo, vivamus aliquam massa
-    massainceptos fermentum porttitor, blandit vehicula, lorem in placerat ut aliquam at sociosqu. Vivamus duis
-    ultricies
-    aliquam placerat, tincidunt scelerisque imperdiet, egestas erat vel. Libero rerum. Donec ligula tristique, purus
-    montes,
-    feugiatid nunc in a nec. Duis odio, vitae sed etiam mi massa, laoreet amet purus amet rhoncus, eget sed, arcu
-    urna.
-    Maecenaswisi id, at donec enim. Proin nisl, pulvinar leo suspendisse, cum parturient non, congue leo et ut in,
-    neque ut
-    lacusauctor quam fermentum urna. Metus quis, mauris dictum aptent ultrices nulla viverra ornare, tempor elit enim
-    leo
-    donec,sed sed. Vivamus sapien facilisi, tempor arcu nulla justo sed et, eget suspendisse lacus sed nunc mattis
-    lectus.
-    Metusgravida.</p>
+    <div class="homeDetails">
+      <section class="accordion">
+        <div class="tab">
+            <input type="checkbox" name="accordion-1" id="cb2">
+            <label for="cb2" class="tab__label">Open multiple</label>
+            <div class="tab__content">
+              <p>
+                Lorem ipsum dolor sit amet, et proin, justo mus. Porta suspendisse turpis netus sagittis tortor at, vitae aliquet
+                pharetra cras velit, id gravida, neque nulla lorem, posuere hac. Ultricies eget lacus vehicula, in ante aliquam
+                et,facilisis tempor duis orci. Sed molestie sem in duis eu id, nisl id ultricies metus blandit eget praesent, pede
+                tempornullam, vitae arcu tortor suspendisse nibh risus. Nulla id suscipit reiciendis nulla erat. Porta enim aute
+                luctus,ducimus sodales dolor.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
   </div>
 </body>
 

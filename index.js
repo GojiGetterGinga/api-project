@@ -1,6 +1,9 @@
-import express from "express";
-import axios from "axios";
-import bodyParser from "body-parser";
+const express = require("express");
+const axios = require("axios");
+const bodyParser = require ("body-parser");
+
+const favicon = require('serve-favicon');
+const path = require('path');
 
 const app = express();
 const port = 3000;
@@ -8,7 +11,22 @@ const API_URL = "https://wilds.mhdb.io/en/";
 
 // css and images
 app.use(express.static("public"));
+app.use(favicon(__dirname + '/public/favicon.ico'));
+
+
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// these values eventually change, dont know if im actually gonna update this site probably not
+let maxLocations = 4;
+let maxMonsters = 34;
+let maxSpecies = 12;
+// maxArmorsets
+
+let speciesList = ["construct","flying-wyvern", "temnoceran", "leviathan", "fanged-beast",
+  "cephalopod", "bird-wyvern", "brute-wyvern", "amphibian", "demi-elder", "machine", "elder-dragon"];
+
+  // change everything to use location.name instead
+let locationList = ["n/a", "Oilwell Basin", "Windward Plains", "Scarlet Forest", "Ruins of Wyveria", "Iceshard Cliffs"]
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
@@ -44,8 +62,9 @@ app.get("/", async(req, res) => {
     }
 });
 
+// eventually rewrite so that it's all locations isntead of random do cards etc
 app.get("/locations", async(req, res) => {
-  let random = getRandomInt(4) + 1;
+  let random = getRandomInt(maxLocations) + 1;
   // console.log(API_URL + "locations/camps?q={\"location.id\":" + random + "}");
   console.log("id: " + req.body.id);
   console.log("danger: " + req.body.risk);
@@ -74,7 +93,7 @@ app.get("/locations", async(req, res) => {
 });
 
 app.post("/get-location", async (req, res) => {
-  let random = getRandomInt(4) + 1;
+  let random = getRandomInt(maxLocations) + 1;
 
   console.log("id: " + req.body.id);
   console.log("danger: " + req.body.risk);
@@ -98,7 +117,6 @@ app.post("/get-location", async (req, res) => {
   else 
     url = API_URL + "locations/camps?q={\"risk\": \"" + riskLevel + "\",\"location.id\":" + searchId + "}";
   
-
   try {
     console.log(url);
     const response = await axios.get(url);
@@ -118,6 +136,79 @@ app.post("/get-location", async (req, res) => {
     });
   }
 });
+
+
+app.get("/monsters", async(req, res) => {
+  // default, all monsters
+  let url = API_URL + "monsters";
+  console.log(url);
+  try {
+    const response = await axios.get(url);
+    const result = response.data;
+    // console.log("JSON Result");
+    // console.log(result);
+    res.render("monsters.ejs", { data: result});
+  } catch (error) {
+    console.error("Failed to make request:", error.message);
+    res.render("monsters.ejs", {
+      error: error.message,
+    });
+  }
+});
+
+
+
+
+  // maybe add another button that generates single random -> different post
+  // let random = getRandomInt(maxMonsters) + 1;
+app.post("/get-monster", async (req, res) => {
+  let randLocation = getRandomInt(maxLocations) + 1;
+  let randSpecies = speciesList[getRandomInt(maxSpecies)];
+
+
+  console.log("location id: " + req.body.id);
+  console.log("species: " + req.body.species);
+  let searchId = req.body.id;
+  let species = req.body.species;
+  // console.log("id length: " + searchId.length + ", risk length: " + species.length);
+
+  let url = API_URL + "monsters";
+  // random monster
+  if (searchId.length < 1 && species.length < 1)
+  {
+    url = API_URL + "monsters/?q={\"species\": \"" + randSpecies + "\",\"locations.id\":" + randLocation + "}";
+    searchId = randLocation;
+    species = randSpecies;
+  }
+
+  // filtered location
+  else if(searchId.length >= 1 && species.length < 1)
+    url = API_URL + "monsters/?q={\"locations.id\":" + searchId + "}";
+
+  // filtered species
+  else if(searchId.length < 1 && species.length >= 1)
+    url = API_URL + "monsters/?q={\"species\": \"" + species + "\"}";
+  
+  // both filters
+  else 
+    url = API_URL + "monsters/?q={\"species\": \"" + species + "\",\"locations.id\":" + searchId + "}";
+  
+  try {
+    console.log(url);
+    const response = await axios.get(url);
+    const result = response.data;
+    // console.log("JSON Result");
+    // console.log(result);
+    // console.log(result.length);
+    res.render("monsters.ejs", { data: result, location: locationList[searchId], species: species, id: searchId});
+  } catch (error) {
+    console.error("Failed to make request:", error.message);
+    res.render("monsters.ejs", {
+      error: error.message,
+    });
+  }
+});
+
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

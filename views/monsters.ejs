@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Locations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Markazi+Text:wght@400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="styles/main.css">
+  
+</head>
+
+<body>
+  <div class="container">
+    <%if (locals.error) {%>
+            <div id="tag-error" class="tag-error">
+              <%-error %>
+            </div>
+    <%}%>
+
+    <% if (locals.data.length < 1 && (locals.location && locals.species)) { %> 
+        <h2>No <%= species.replace('-', ' ').replace(/(?:^|\s)\S/g, a => a.toUpperCase());%>s are located in <%= location %>! </h2> 
+    <% } %> 
+
+
+    <% if (locals.data) { %> 
+    <div class="response-area">
+      <% data.forEach((monster) => { %>
+        <h2> <%= monster.name %></h2> 
+        <ul>
+          <li>
+              <h3>Species: <%= monster.species.replace('-', ' ').replace(/(?:^|\s)\S/g, a => a.toUpperCase()); %> </>
+          </li>
+          <li>
+              <h3 class="monsterDesc">Description: </h3> <p class="monsterDesc" ><%= monster.description %> </p>
+          </li>
+          <li>
+
+          <h3> Locations </h3>
+          </li>
+          <ul>
+            <% monster.locations.forEach((location) => { %>
+              <li>
+                  <p><%= location.name %> </p>
+              </li>
+            <% }) %> 
+          </ul>
+        </ul>
+      <% }) %> 
+    </div>
+    <% } %> 
+
+    <form id="myForm" method="post">
+      <label>Filter by Location:</label>
+      <!-- <input type="text" id="idInput" name="id"> -->
+      <select name ="id" > 
+        <% if (locals.location && locals.id) { %> 
+          <option value="<%= id %>" selected hidden><%= location %></option>
+          <option value="">Random</option>
+        <% }  else { %>  
+          <option value="" selected>Random</option>
+        <% } %> 
+        <option value="1">Oilwell Basin</option>
+        <option value="2">Windward Plains</option>
+        <option value="3">Scarlet Forest</option>
+        <option value="4">Ruins of Wyveria</option>
+        <option value="5">Iceshard Cliffs</option>
+      </select>
+
+
+      <label>Filter by Species:</label>
+      <select name ="species">
+        <% if (locals.species) { %> 
+          <option value="<%= species %>" selected hidden> <%= species.replace('-', ' ').replace(/(?:^|\s)\S/g, a => a.toUpperCase()) %></option>
+          <option value="">Random</option>
+        <% }  else { %>  
+          <option value="" selected>Random</option>
+        <% } %> 
+      <option value="construct">Construct</option>
+      <option value="flying-wyvern">Flying Wyvern</option>
+      <option value="temnoceran">Temnoceran</option>
+      <option value="leviathan">Leviathan</option>
+      <option value="fanged-beast">Fanged Beast</option>
+      <option value="cephalopod">Cephalopod</option>
+      <option value="bird-wyvern">Bird Wyvern</option>
+      <option value="brute-wyvern">Brute Wyvern</option>
+      <option value="amphibian">Amphibian</option>
+      <option value="demi-elder">Demi Elder</option>
+      <option value="machine">Machine</option>
+      <option value="elder-dragon">Elder Dragon</option>
+
+      </select>
+
+      <input class="button" type="submit" value="Enter" formaction="/get-monster">
+    </form>
+  </div>
+</body>
+<%- include("partials/footer.ejs") %>
+
+</html>
