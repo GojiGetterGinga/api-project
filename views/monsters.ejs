@@ -1,51 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html data-bs-theme="dark">
 
 <head>
-  <title>Locations</title>
+  <title>Monsters</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Markazi+Text:wght@400..700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css" href="styles/main.css">
   
 </head>
 
 <body>
-  <div class="container">
+  <div class="container-md text-center ">
     <%if (locals.error) {%>
             <div id="tag-error" class="tag-error">
               <%-error %>
             </div>
-    <%}%>
-
-    <% if (locals.data.length < 1 && (locals.location && locals.species)) { %> 
+    <%} if (locals.data.length < 1 && (locals.location && locals.species)) { %> 
         <h2>No <%= species.replace('-', ' ').replace(/(?:^|\s)\S/g, a => a.toUpperCase());%>s are located in <%= location %>! </h2> 
     <% } %> 
 
-
     <% if (locals.data) { %> 
-    <div class="response-area">
-      <% data.forEach((monster) => { %>
-        <h2> <%= monster.name %></h2> 
-        <ul>
-          <li>
-              <h3>Species: <%= monster.species.replace('-', ' ').replace(/(?:^|\s)\S/g, a => a.toUpperCase()); %> </>
-          </li>
-          <li>
-              <h3 class="monsterDesc">Description: </h3> <p class="monsterDesc" ><%= monster.description %> </p>
-          </li>
-          <li>
-
-          <h3> Locations </h3>
-          </li>
-          <ul>
-            <% monster.locations.forEach((location) => { %>
-              <li>
-                  <p><%= location.name %> </p>
-              </li>
-            <% }) %> 
-          </ul>
-        </ul>
+    <div class="row gy-5 monsterContainer justify-content-center">
+      <% data.forEach((monster) => { 
+        let modalName = monster.name.replaceAll(' ','') + "Modal";
+        let fileName = "/images/icons/MHWilds-" +  monster.name.replaceAll(' ','_')  + "_Icon.webp";%>
+        <div class="monsterCard col align-self-center" data-bs-toggle="modal" data-bs-target="#<%= modalName %>"> 
+          <img class="monsterIcon buttonImage" src=<%= fileName %>>
+          <h2 class="is-size-2"> <%= monster.name %></h2> 
+        </div>
       <% }) %> 
     </div>
     <% } %> 
@@ -94,6 +81,51 @@
       <input class="button" type="submit" value="Enter" formaction="/get-monster">
     </form>
   </div>
+
+
+   <% if (locals.data) { %> 
+      <% data.forEach((monster) => { 
+        let modalName = monster.name.replaceAll(' ','') + "Modal";
+        let fileName = "/images/renders/MHWilds-" +  monster.name.replaceAll(' ','_')  + "_Render.webp";%>
+         <!-- Modal -->
+          <div class="modal fade" id="<%= modalName %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+              <div class="modal-content ">
+                <div class="modal-header">
+                  <h1 class="modal-title" id="exampleModalLabel"><%= monster.name %></h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="container-fluid ">
+                      <div class="row align-items-center">
+                          <div class="col ms-auto">
+                            <img class="renderImg " src=<%= fileName %> >
+                          </div>
+                          <div class="col ms-auto monsterInfo">
+                            <h4 class="monsterDesc" ><%= monster.description %> </h4>
+                            <br/>
+                            <h3 class="is-size-3" >Species:  <%= monster.species.replace('-', ' ').replace(/(?:^|\s)\S/g, a => a.toUpperCase()); %></h3>
+                            <br/>
+                            <h3 class="is-size-3"> Locations </h3>
+                            <br/>
+                            <ul>
+                              <% monster.locations.forEach((location) => { %>
+                                <li>
+                                    <p><%= location.name %> </p>
+                                </li>
+                              <% }) %> 
+                            </ul>
+                          </div>                
+                        </div>
+                      </div>                
+                  </div>                
+                </div>
+              </div>
+            </div>
+      <% }) %> 
+    <% } %> 
+
+
 </body>
 <%- include("partials/footer.ejs") %>
 
